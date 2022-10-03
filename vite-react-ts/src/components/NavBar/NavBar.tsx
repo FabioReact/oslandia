@@ -23,7 +23,7 @@ const NavBar = () => {
   return (
     <>
       <nav>
-        <ul>
+        <ul className='flex justify-center gap-4 font-semibold text-lg my-1'>
           {arrayOfLi.map((link) => (
             <li key={link.to}>
               <NavLink
