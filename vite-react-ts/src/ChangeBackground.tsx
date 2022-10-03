@@ -15,7 +15,7 @@ const colors = [
 ]
 
 type ColorListProps = {
-	callback: Function
+  callback: (index: number) => void
 }
 
 const ColorList = ({ callback }: ColorListProps) => {
@@ -49,7 +49,7 @@ const ChangeBackground = (): JSX.Element => {
       <h1>Test Background - {index}</h1>
       <button onClick={() => updateIndex(-1)}>Previous Color</button>
       <button onClick={() => updateIndex(1)}>Next Color</button>
-			<ColorList callback={setIndex} />
+      <ColorList callback={setIndex} />
     </section>
   )
 }

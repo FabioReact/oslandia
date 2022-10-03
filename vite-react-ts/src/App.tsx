@@ -20,7 +20,7 @@ type Props = {
 }
 
 function App({ teacher, course, children }: Props) {
-  const [activeRoute, setActiveRoute] = useState<string|null>(null)
+  const [activeRoute, setActiveRoute] = useState<string | null>(null)
   return (
     <>
       <nav>
@@ -47,7 +47,4 @@ function App({ teacher, course, children }: Props) {
   )
 }
 
-function add() {}
-
-export { App, add as default }
-
+export { App }
