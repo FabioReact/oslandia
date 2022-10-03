@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from 'react'
-import { getHeroes } from '../api/heroes'
+import { getHeroesByLetter } from '../api/heroes'
 import { ActionType, heroesReducer } from '../reducers/heroesReducer'
 import { Hero } from '../types/hero'
 
@@ -10,12 +10,12 @@ const initialState = {
   errorMessage: '',
 }
 
-const useSearchHeroes = () => {
+const useSearchHeroes = (letter: string) => {
   const [state, dispatch] = useReducer(heroesReducer, initialState)
   const { error, loading, heroes, errorMessage } = state
 
-  useEffect(() => {
-    getHeroes()
+  const searchHeroesByletter = (letter: string) => {
+    getHeroesByLetter(letter)
       .then((data: Hero[]) => {
         dispatch({
           type: ActionType.SET_HEROES,
@@ -23,20 +23,29 @@ const useSearchHeroes = () => {
         })
       })
       .catch((err) => {
-        console.error(err)
         dispatch({
           type: ActionType.SET_ERROR,
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           errorMessage: err.message as string,
         })
       })
+  }
+
+  useEffect(() => {
+    searchHeroesByletter(letter)
   }, [])
+
+  const onSearchHero = (letter: string) => {
+    dispatch({ type: ActionType.LOADING })
+    searchHeroesByletter(letter)
+  }
 
   return {
     heroes,
     loading,
     error,
     errorMessage,
+    onSearchHero,
   }
 }
 
