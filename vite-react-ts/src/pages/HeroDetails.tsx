@@ -1,23 +1,37 @@
-import { useParams } from 'react-router-dom'
-import { useQuery } from 'react-query'
+import { Await, defer, LoaderFunction, useLoaderData } from 'react-router-dom'
 import { getHeroById } from '../api/heroes'
 import HeroCard from '../components/HeroCard/HeroCard'
-import { Hero } from '../types/hero'
 import Spinner from '../components/Spinner/Spinner'
+import { Suspense } from 'react'
+import { Hero } from '../types/hero'
+
+type LoaderData = {
+  data: ReturnType<typeof getHeroById>
+}
 
 const HeroDetails = () => {
-  const params = useParams()
-  const id = params.id || 0
-  const { data, isError, isLoading, error } = useQuery(['getHero', id], () => getHeroById(+id))
+  const { data } = useLoaderData() as LoaderData
 
   return (
     <section>
-      <h1>Hero id: {id}</h1>
-      {isError && <p>Houston, we have a problem: {JSON.stringify(error)}</p>}
-      {isLoading && <Spinner />}
-      {data && <HeroCard hero={data} />}
+      <Suspense fallback={<Spinner />}>
+        <Await resolve={data}>
+          {(resolvedData: Hero) => <HeroCard hero={resolvedData} />}
+          {/* <h1>Hero id: {data.id}</h1> */}
+          {/* {isError && <p>Houston, we have a problem: {JSON.stringify(error)}</p>} */}
+          {/* {isLoading && <Spinner />} */}
+          {/* {data && <HeroCard hero={data} />} */}
+          {/* <HeroCard hero={data} /> */}
+        </Await>
+      </Suspense>
     </section>
   )
 }
 
-export default HeroDetails
+const heroDetailsLoader: LoaderFunction = ({ params }) => {
+  const id = +(params.id || '0')
+  const data = getHeroById(id)
+  return defer({ data })
+}
+
+export { HeroDetails as default, heroDetailsLoader }

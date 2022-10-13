@@ -1,0 +1,40 @@
+import { lazy } from 'react'
+import { Route } from 'react-router-dom'
+import ChangeBackground from './ChangeBackground'
+import NavBar from './components/NavBar/NavBar'
+import Counter from './pages/Counter'
+import { heroDetailsLoader } from './pages/HeroDetails'
+import Heroes from './pages/Heroes'
+
+const Home = lazy(() => import('./pages/Home'))
+const Profile = lazy(() => import('./pages/Profile'))
+const Cities = lazy(() => import('./pages/Cities'))
+const Login = lazy(() => import('./pages/Login'))
+const HeroDetails = lazy(() => import('./pages/HeroDetails'))
+
+const createRoutes = () => {
+  return (
+    <Route path='/' element={<NavBar />}>
+      <Route
+        index
+        element={
+          <Home teacher='Fabio' course='React'>
+            <p>Enfant</p>
+          </Home>
+        }
+      />
+      <Route path='counter' element={<Counter />} />
+      <Route path='profile' element={<Profile />} />
+      <Route path='login' element={<Login />} />
+      <Route path='cities' element={<Cities />} />
+      <Route path='change-background' element={<ChangeBackground />} />
+      <Route path='heroes' element={<Heroes />} />
+      <Route path='heroes/:id' element={<HeroDetails />} loader={heroDetailsLoader} />
+      {/* <Route path='/admin' element={<NavBar />}>
+		<Route path='change-background' element={<ChangeBackground />} />
+	</Route> */}
+    </Route>
+  )
+}
+
+export default createRoutes

@@ -1,36 +1,47 @@
-import { Routes, Route } from 'react-router-dom'
+import { RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import ChangeBackground from './ChangeBackground'
-import NavBar from './components/NavBar/NavBar'
-import Counter from './pages/Counter'
-import HeroDetails from './pages/HeroDetails'
-import Heroes from './pages/Heroes'
-import Home from './pages/Home'
+import createRoutes from './Routes'
+import { Suspense, useState } from 'react'
+import { AuthContext } from './context/auth-context'
+import { Provider } from 'react-redux'
+import { store } from './redux/store'
 
 const queryClient = new QueryClient()
 
+const router = createBrowserRouter(createRoutesFromElements(createRoutes()))
+
 function App() {
+  const [connected, setConnected] = useState(false)
+  const [username, setUsername] = useState('')
+
+  const login = (username: string, password: string) => {
+    if (username === 'Fabio' && password === 'secret') {
+      setConnected(true)
+      setUsername('Fabio')
+    }
+  }
+
+  const logout = () => {
+    setConnected(false)
+    setUsername('')
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
-      <Routes>
-        <Route path='/' element={<NavBar />}>
-          <Route
-            index
-            element={
-              <Home teacher='Fabio' course='React'>
-                <p>Enfant</p>
-              </Home>
-            }
-          />
-          <Route path='counter' element={<Counter />} />
-          <Route path='change-background' element={<ChangeBackground />} />
-          <Route path='heroes' element={<Heroes />} />
-          <Route path='heroes/:id' element={<HeroDetails />} />
-        </Route>
-        {/* <Route path='/admin' element={<NavBar />}>
-          <Route path='change-background' element={<ChangeBackground />} />
-        </Route> */}
-      </Routes>
+      <Suspense fallback={<div>Chargement...</div>}>
+        <Provider store={store}>
+          <AuthContext.Provider
+            value={{
+              connected,
+              username,
+              login,
+              logout,
+            }}
+          >
+            <RouterProvider router={router} />
+          </AuthContext.Provider>
+        </Provider>
+      </Suspense>
     </QueryClientProvider>
   )
 }

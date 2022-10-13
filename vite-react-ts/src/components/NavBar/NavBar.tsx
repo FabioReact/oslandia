@@ -1,6 +1,9 @@
+import { useContext } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
+import { AuthContext } from '../../context/auth-context'
 
 const NavBar = () => {
+  const { connected, logout } = useContext(AuthContext)
   const arrayOfLi = [
     {
       to: '/',
@@ -12,12 +15,20 @@ const NavBar = () => {
       label: 'Counter',
     },
     {
+      to: 'cities',
+      label: 'Cities',
+    },
+    {
       to: 'change-background',
       label: 'Background',
     },
     {
       to: 'heroes',
       label: 'Heroes',
+    },
+    {
+      to: 'profile',
+      label: 'Profile',
     },
   ]
   return (
@@ -35,6 +46,15 @@ const NavBar = () => {
               </NavLink>
             </li>
           ))}
+          {connected ? (
+            <li>
+              <button onClick={logout}>Logout</button>
+            </li>
+          ) : (
+            <NavLink to='login' style={({ isActive }) => (isActive ? { color: 'red' } : undefined)}>
+              Login
+            </NavLink>
+          )}
         </ul>
       </nav>
       <Outlet />
