@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { NavLink, Outlet } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { AuthContext } from '../../context/auth-context'
 
 const NavBar = () => {
@@ -27,39 +27,39 @@ const NavBar = () => {
       label: 'Heroes',
     },
     {
+      to: 'search',
+      label: 'Search',
+    },
+    {
       to: 'profile',
       label: 'Profile',
     },
   ]
   return (
-    <>
-      <nav>
-        <ul className='flex justify-center gap-4 font-semibold text-lg my-1'>
-          {arrayOfLi.map((link) => (
-            <li key={link.to}>
-              <NavLink
-                end={link.end}
-                to={link.to}
-                style={({ isActive }) => (isActive ? { color: 'red' } : undefined)}
-              >
-                {link.label}
-              </NavLink>
-            </li>
-          ))}
-          {connected ? (
-            <li>
-              <button onClick={logout}>Logout</button>
-            </li>
-          ) : (
-            <NavLink to='login' style={({ isActive }) => (isActive ? { color: 'red' } : undefined)}>
-              Login
+    <nav className='pb-6'>
+      <ul className='flex justify-center gap-4 font-semibold text-lg py-1'>
+        {arrayOfLi.map((link) => (
+          <li key={link.to}>
+            <NavLink
+              end={link.end}
+              to={link.to}
+              className={({ isActive }) => (isActive ? 'text-red-600' : '')}
+            >
+              {link.label}
             </NavLink>
-          )}
-        </ul>
-      </nav>
-      <Outlet />
-      {/* <footer>Copyright 2022</footer> */}
-    </>
+          </li>
+        ))}
+        {connected ? (
+          <li>
+            <button onClick={logout}>Logout</button>
+          </li>
+        ) : (
+          <NavLink to='login' style={({ isActive }) => (isActive ? { color: 'red' } : undefined)}>
+            Login
+          </NavLink>
+        )}
+      </ul>
+    </nav>
   )
 }
 

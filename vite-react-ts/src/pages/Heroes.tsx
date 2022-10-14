@@ -24,9 +24,9 @@ const Heroes = () => {
   }
 
   return (
-    <section>
-      <h1>Heroes List</h1>
-      <ul className='flex justify-center gap-2 cursor-pointer'>
+    <section className='flex flex-col items-center'>
+      <h1 className='uppercase text-4xl font-light tracking-widest'>Heroes List</h1>
+      <ul className='flex justify-center gap-2 cursor-pointer font-semibold py-6'>
         {arrayOfLetters.map((letter, index) => (
           <li
             className={searchedLetter === letter ? 'text-red-600' : undefined}
@@ -39,7 +39,7 @@ const Heroes = () => {
       </ul>
       {error && <p>Houston, we have a problem: {errorMessage}</p>}
       {!error && loading && <Spinner />}
-      <div className='flex flex-wrap gap-4'>
+      <div className='flex flex-wrap gap-4 justify-center'>
         {heroes.map((hero) => (
           <Link key={hero.id} to={hero.id}>
             <HeroCard hero={hero} />

@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { heroesApi } from './api'
 import citiesReducer from './reducers/citiesSlice'
+import themeReducer from './reducers/themeSlice'
 
 export const store = configureStore({
   reducer: {
     cities: citiesReducer,
+    theme: themeReducer,
     [heroesApi.reducerPath]: heroesApi.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(heroesApi.middleware),
