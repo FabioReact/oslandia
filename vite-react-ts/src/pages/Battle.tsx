@@ -2,11 +2,11 @@ import React, { useRef, useState } from 'react'
 import HeroCard from '../components/HeroCard/HeroCard'
 import { useLazyGetHeroByNameQuery } from '../redux/api'
 import { Hero } from '../types/hero'
+import { fight } from '../utils/fight'
 
 type HeroLabelProps = {
   hero: Hero
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  onClick?: Function
+  onClick?: (event: React.MouseEvent) => void
 }
 
 const HeroLabel = ({ hero, onClick = () => null }: HeroLabelProps) => {
@@ -24,21 +24,21 @@ const SelectHeroForm = ({
   selectHero,
   label = 'Number',
 }: {
-  selectHero: (hero: Hero) => any
+  selectHero: React.Dispatch<React.SetStateAction<Hero>>
   label?: string
 }) => {
   // const [selectedHero, setSelectedHero] = useState(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const [getHeroByName, { data, isLoading, error }] = useLazyGetHeroByNameQuery()
+  const [getHeroByName, { data, isLoading }] = useLazyGetHeroByNameQuery()
 
-  const onSubmit = async (e: React.SyntheticEvent) => {
+  const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault()
     const searchedHero = inputRef.current?.value || ''
-    await getHeroByName(searchedHero)
+    void getHeroByName(searchedHero)
   }
 
-  if (data)
+  if (data && data.length)
     return (
       <section>
         {data.map((hero) => (
@@ -48,22 +48,28 @@ const SelectHeroForm = ({
     )
 
   return (
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form onSubmit={onSubmit}>
-      <fieldset>
+      <fieldset className='flex flex-col'>
         <label htmlFor={`hero${label}`}>Select Hero {label}:</label>
         <input ref={inputRef} type='text' id={`hero${label}`} className='border-b border-black' />
-        <button disabled={isLoading}>Search</button>
+        {data?.length === 0 && <span className=' text-red-600 text-sm'>No results found</span>}
       </fieldset>
+      <button className='mt-2' disabled={isLoading}>
+        Search
+      </button>
     </form>
   )
 }
 
 const Battle = () => {
-  const [heroOne, setHeroOne] = useState(null)
-  const [heroTwo, setHeroTwo] = useState(null)
+  const [winner, setWinner] = useState<Hero | null>(null)
+  const [heroOne, setHeroOne] = useState<Hero>(null as unknown as Hero)
+  const [heroTwo, setHeroTwo] = useState<Hero>(null as unknown as Hero)
+  const onFight = () => {
+    setWinner(fight(heroOne, heroTwo))
+  }
   return (
-    <section>
+    <section className='text-center'>
       <h1>Battle</h1>
       <div className='flex'>
         <div className='flex w-1/2 justify-center'>
@@ -75,7 +81,8 @@ const Battle = () => {
           {heroTwo && <HeroCard hero={heroTwo} />}
         </div>
       </div>
-      {heroOne && heroTwo && <button>Fight</button>}
+      {heroOne && heroTwo && <button onClick={onFight}>Fight</button>}
+      {winner && <p>Winner is {winner?.name}</p>}
     </section>
   )
 }
