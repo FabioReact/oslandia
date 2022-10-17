@@ -14,6 +14,13 @@ export const heroesApi = createApi({
     getHeroByName: builder.query<Hero[], string>({
       query: (name) => `heroes?name_like=${name}`,
     }),
+    addHero: builder.mutation<Hero, Hero>({
+      query: (hero) => ({
+        url: 'heroes',
+        method: 'POST',
+        body: hero,
+      }),
+    }),
   }),
 })
 
@@ -22,4 +29,5 @@ export const {
   useGetHeroByNameQuery,
   useLazyGetHeroByNameQuery,
   useGetAllHeroesQuery,
+  useAddHeroMutation,
 } = heroesApi

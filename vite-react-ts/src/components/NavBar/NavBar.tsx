@@ -31,6 +31,10 @@ const NavBar = () => {
       label: 'Battle',
     },
     {
+      to: '/recruit',
+      label: 'Recruit',
+    },
+    {
       to: 'search',
       label: 'Search',
     },

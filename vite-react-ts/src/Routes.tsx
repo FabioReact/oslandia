@@ -13,6 +13,7 @@ const Cities = lazy(() => import('./pages/Cities'))
 const Login = lazy(() => import('./pages/Login'))
 const HeroDetails = lazy(() => import('./pages/HeroDetails'))
 const Battle = lazy(() => import('./pages/Battle'))
+const Recruit = lazy(() => import('./pages/Recruit'))
 
 const createRoutes = () => {
   return (
@@ -32,6 +33,7 @@ const createRoutes = () => {
       <Route path='change-background' element={<ChangeBackground />} />
       <Route path='heroes' element={<Heroes />} />
       <Route path='battle' element={<Battle />} />
+      <Route path='recruit' element={<Recruit />} />
       <Route path='search' element={<Search />} />
       <Route path='heroes/:id' element={<HeroDetails />} loader={heroDetailsLoader} />
       {/* <Route path='/admin' element={<NavBar />}>

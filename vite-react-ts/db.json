@@ -36194,6 +36194,46 @@
       "image": {
         "url": "https://www.superherodb.com/pictures2/portraits/10/100/1384.jpg"
       }
+    },
+    {
+      "id": "BnpnByn",
+      "name": "Inspecteur Gadget",
+      "powerstats": {
+        "intelligence": "12",
+        "strength": "",
+        "speed": "",
+        "durability": "",
+        "power": "",
+        "combat": ""
+      },
+      "biography": {
+        "full-name": "Gadget",
+        "alter-egos": "",
+        "aliases": [],
+        "place-of-birth": "",
+        "first-appearance": "",
+        "publisher": "",
+        "alignment": ""
+      },
+      "appearance": {
+        "gender": "",
+        "race": "",
+        "height": [],
+        "weight": [],
+        "eye-color": "",
+        "hair-color": ""
+      },
+      "work": {
+        "occupation": "",
+        "base": ""
+      },
+      "connections": {
+        "group-affiliation": "",
+        "relatives": ""
+      },
+      "image": {
+        "url": ""
+      }
     }
   ]
 }
