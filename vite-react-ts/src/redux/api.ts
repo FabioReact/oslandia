@@ -17,4 +17,9 @@ export const heroesApi = createApi({
   }),
 })
 
-export const { useGetHeroByIdQuery, useGetHeroByNameQuery, useGetAllHeroesQuery } = heroesApi
+export const {
+  useGetHeroByIdQuery,
+  useGetHeroByNameQuery,
+  useLazyGetHeroByNameQuery,
+  useGetAllHeroesQuery,
+} = heroesApi

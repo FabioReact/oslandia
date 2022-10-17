@@ -27,6 +27,10 @@ const NavBar = () => {
       label: 'Heroes',
     },
     {
+      to: '/battle',
+      label: 'Battle',
+    },
+    {
       to: 'search',
       label: 'Search',
     },
